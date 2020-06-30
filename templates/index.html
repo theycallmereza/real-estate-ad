@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+    ضفحه اضلی
+{% endblock %}
+
+{% block content %}
+    <section class="search mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="searching">
+                        <input type="text" class="search-text" placeholder="جستجو" onfocus="this.placeholder = ''"
+                               onblur="this.placeholder = 'جستجو'">
+                        <a href="#" class="search-btn">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--MAIN SECTION-->
+    <section class="bg-white">
+        <div class="container">
+            <div class="row mt-5">
+                {% for ad in advertisements %}
+                    <div class="col-lg-4 col-md-6 mt-4">
+                        <div class="card custom-card border-0">
+                            <div class="img-wrapper">
+                                <img src="{% if not ad.images.first.image.url %}https://fakeimg.pl/1000x1000/
+                                          {% else %}
+                                          {{ ad.images.first.image.url }}{% endif %}"
+                                     alt=""
+                                     class="card-img-top img-fluid custom-card-img">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title text-right">{{ ad.title }}</h5>
+                                <small class="float-right">{{ ad.category }}</small>
+                                <p class="card-text">
+                                    {% for adinfo in ad.advertisement.all %}
+                                        {% if adinfo.property.title == 'قیمت' %}
+                                            <small class="d-block">
+                                                قیمت : {{ adinfo.value }} تومان
+                                            </small>
+                                        {% endif %}
+                                        {% if adinfo.property.title == 'ودیعه' %}
+                                            <small class="d-block">
+                                            ودیعه : {{ adinfo.value }} تومان
+                                            </small>
+                                        {% endif %}
+                                        {% if adinfo.property.title == 	'اجاره ماهیانه' %}
+                                            <small class="d-block">
+                                            	اجاره ماهیانه : {{ adinfo.value }} تومان
+                                            </small>
+                                        {% endif %}
+                                    {% endfor %}
+                                </p>
+                                <small class="text-muted">{{ ad.created_at|naturaltime }}</small>
+                                <a href="{% url 'ad-detail' ad.pk %}" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

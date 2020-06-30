@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"/>
+{% endblock %}
+
+{% block title %}
+    {{ ad.title }}
+{% endblock %}
+
+
+{% block content %}
+    <section class="carousel-section">
+        <div class="container">
+            <h2 class="ad-title mt-5">{{ ad.title }}</h2>
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <div id="custom-carousel">
+                        {% for images in ad.images.all %}
+                            <div>
+                                <img src="{{ images.image.url }}" alt="{{ ad.title }}">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="ad-detail">
+                        <small class="text-muted">{{ ad.created_at|naturaltime }}</small>
+                        <table class="table table-hover mt-3">
+                            <tbody>
+                            <tr>
+                                <td>دسته بندی :</td>
+                                <td>{{ ad.category }}</td>
+                            </tr>
+                            {% for adinfo in ad.advertisement.all %}
+                                {% if adinfo.value %}
+                                    <tr>
+                                        <td>{{ adinfo.property.title }}</td>
+                                        <td>{{ adinfo.value }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            {% if ad.description %}
+                                <tr>
+                                    <td>توضیحات :</td>
+                                    <td>{{ ad.description }}</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_script %}
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#custom-carousel').slick({
+                dots: true,
+                infinite: true,
+                speed: 300,
+                slidesToShow: 1,
+                adaptiveHeight: true
+            });
+        });
+    </script>
+{% endblock %}

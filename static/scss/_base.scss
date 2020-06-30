@@ -1,0 +1,14 @@
+@font-face {
+  font-family: IranSans;
+  src: url("../fonts/IRANSansWeb.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: IranSansBold;
+  src: url("../fonts/IRANSansWeb_Bold.ttf") format('truetype');
+}
+
+body {
+  font-family: 'IranSans', Arial, sans-serif;
+  direction: rtl;
+}

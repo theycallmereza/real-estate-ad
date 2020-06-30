@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}
+    ثبت آگهی جدید
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-6 mx-auto">
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <small class="text-danger float-right">{{ error }}</small>
+                    {% endfor %}
+                {% endif %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    {% for field in form %}
+                        <div class="form-group">
+                            {% if field.html_name != 'category' %}
+                                {% render_field field class='form-control' placeholder=field.label %}
+                            {% else %}
+                                <select name="{{ field.html_name }}" class="form-control">
+                                    <option value="">انتخاب دسته بندی</option>
+                                    {% for category in categories %}
+                                        {% if not category.parent.id %}
+                                            <optgroup label="{{ category.title }}">
+                                                {% for cat in categories %}
+                                                    {% if cat.parent.id == category.id %}
+                                                        <option value="{{ cat.id }}">{{ cat.title }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </optgroup>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    {{ formset.management_form }}
+                    {% for form in formset %}
+                        {% for field in form %}
+                            {% render_field field class='form-control' placeholder=field.label %}
+                            {% for error in field.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                    <input class="btn btn-primary btn-block mt-3" type="submit" value="بعدی">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

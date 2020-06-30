@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}
+    ثبت آگهی جدید
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-6 mx-auto">
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <small class="text-danger float-right">{{ error }}</small>
+                    {% endfor %}
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group">
+                            {% render_field field class='form-control' placeholder=field.label %}
+                            {% for error in field.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <input class="btn btn-success btn-block" type="submit" value="ثبت آگهی">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

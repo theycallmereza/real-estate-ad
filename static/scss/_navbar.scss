@@ -1,0 +1,42 @@
+.my-navbar {
+  box-shadow: 0 10px 30px rgba(216, 216, 216, 0.45);
+  //position: fixed;
+  //width: 100%;
+}
+
+.navbar-brand {
+  font-weight: bold;
+
+  img {
+    width: 42px;
+  }
+}
+
+.nav-link {
+  border-bottom: 4px solid $white;
+  margin-right: 24px;
+  transition: .3s ease;
+  padding: 5px;
+
+  &:hover {
+    color: $black;
+    border-bottom: 4px solid $color-primary;
+  }
+}
+
+.nav-active a {
+  color: $black !important;
+  font-weight: bold;
+  border-bottom: 4px solid $color-primary;
+}
+
+.nav-btn {
+  border: none;
+  background-color: $color-primary;
+  color: $white!important;
+
+  &:hover {
+    background-color: $color-primary-dark;
+    border: none;
+  }
+}

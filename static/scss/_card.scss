@@ -1,0 +1,17 @@
+.custom-card {
+  margin: 0 auto;
+  box-shadow: 0 0 50px rgba($color: #a5a5a5, $alpha: .4);
+  cursor: pointer;
+
+  .card-title {
+    text-decoration: none;
+    font-size: 1.4rem;
+  }
+
+  .card-text {
+    color: $color-primary-dark;
+  }
+  .custom-card-img {
+    height: 300px;
+  }
+}
