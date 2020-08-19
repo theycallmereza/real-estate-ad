@@ -1,5 +1,4 @@
 import redis
-import kavenegar
 
 from django.conf import settings
 
@@ -18,6 +17,7 @@ from django.utils.crypto import get_random_string
 from django.urls import reverse_lazy
 
 from .forms import CustomUserCreationForm, PasswordResetForm, PhoneVerificationForm
+from .send_sms import send_sms
 
 r = redis.Redis(host=settings.REDIS_HOST,
                 port=settings.REDIS_PORT,
@@ -67,7 +67,9 @@ class PhoneVerificationView(LoginRequiredMixin, FormView):
     def get(self, request, *args, **kwargs):
         r.set(request.user.phone_number, get_random_string(length=6, allowed_chars='1234567890'))
         r.expire(request.user.phone_number, 1800)
-        print(r.get(request.user.phone_number).decode('utf-8'))
+        code = r.get(request.user.phone_number).decode('utf-8')
+        message = f'کد تایید \n {code}'
+        send_sms(request.user.phone_number, message)
         return self.render_to_response(self.get_context_data())
 
     def post(self, request, *args, **kwargs):

@@ -11,6 +11,10 @@ pillow = "*"
 django-widget-tweaks = "*"
 kavenegar = "*"
 redis = "*"
+django-environ = "*"
+gunicorn = "*"
+whitenoise = "*"
+dj-database-url = "*"
 
 [requires]
 python_version = "3.8"
